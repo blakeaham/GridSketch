@@ -3,6 +3,7 @@
     height: 100%;
     width: 100%;
     border-color: black;
+    border-style: dashed;
     grid-template-columns: repeat(5, 100px);
     grid-template-rows: 100vh;
 }
