@@ -4,10 +4,11 @@ const clearBtn = document.querySelector("#clearBtn");
 let power = false;
 clearBtn.addEventListener('click', clearGrid);
 let num = 6;
+const items = JSON.parse(localStorage.getItem('items')) || [];
 
 function makeGrid(num) {
     // Clears Previous grid
-    let gridPixels = bigGrid.querySelectorAll('div');
+    let gridPixels = bigGrid.querySelectorAll('div') ;
     gridPixels.forEach(gridPixel => gridPixel.remove())
     //Creates new grid of given size
     for (i=0; i<num*num; i++){
@@ -41,7 +42,7 @@ function colorGrid(e) {
 document.onload = alert("Use Space Bar for options and Help");
 window.onclick = function(event) {
     if (event.target.classList[0] === "sketchGridDiv"){
-    console.log(event.target.classList)
+    // console.log(event.target.classList)
     power = !power;
     }
 }
@@ -85,3 +86,27 @@ function myFunction() {
 //       modal.style.display = "block";
 //     }
 //   }
+let savedGrids = [];
+
+function remember() {
+    let tempMem = [];
+    let gp = bigGrid.querySelectorAll('div');
+    gp.forEach( i => {
+        tempMem.push(i.style.backgroundColor)
+    })
+    items.push(tempMem);
+    localStorage.setItem('items', JSON.stringify(items));
+}
+
+function recall(n) {
+    let tempMem = items[n];
+    let dim = Math.sqrt(tempMem.length);
+    let gridSpace = 0
+    makeGrid(dim);
+    let gp = bigGrid.querySelectorAll('div');
+
+    gp.forEach(i => {
+        i.style.backgroundColor = tempMem[gridSpace];
+        gridSpace ++;
+    })
+}
