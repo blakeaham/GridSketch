@@ -1,10 +1,12 @@
 const bigGrid = document.querySelector(".bigContainer");
-let canvasheight = window.innerHeight - 20;
 const clearBtn = document.querySelector("#clearBtn");
-let power = false;
-clearBtn.addEventListener('click', clearGrid);
-let num = 6;
+const storeBtn = document.querySelector("#storeBtn");
 const items = JSON.parse(localStorage.getItem('items')) || [];
+let canvasheight = window.innerHeight - 20;
+let power = false;
+let num = 10;
+clearBtn.addEventListener('click', clearGrid);
+storeBtn.addEventListener('click', remember);
 
 function makeGrid(num) {
     // Clears Previous grid
@@ -78,6 +80,13 @@ function myFunction() {
     power = false;
     modal.style.display = "none";
   }
+
+function myFunction2() {
+    var y = document.getElementById("storenumber").value;
+    recall(y);
+    power = false;
+    modal.style.display = "none";
+}
 
 // window.onclick = function(event) {
 //     if (event.target == modal) {
