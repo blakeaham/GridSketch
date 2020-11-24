@@ -24,7 +24,9 @@ function makeGrid(num) {
     //activates each pixel-div for color
     gridPixels = bigGrid.querySelectorAll('div');
     gridPixels.forEach(gridPixel => gridPixel.addEventListener('mouseover', colorGrid))
-    console.log('made new grid of ' + num + ' height and width')
+    console.log('made new grid of ' + num + ' height and width');
+    
+    
 }
 
 function clearGrid() {
@@ -33,6 +35,7 @@ function clearGrid() {
     gridPixels.forEach(gp => gp.style.backgroundColor = "white");
     power = false;
     modal.style.display = "none";
+    writeRecallText()
 }
 
 function colorGrid(e) {
@@ -79,6 +82,7 @@ function remember() {
     })
     items.push(tempMem);
     localStorage.setItem('items', JSON.stringify(items));
+    writeRecallText()
 }
 
 function recall(n) {
@@ -99,6 +103,27 @@ function hideModal() {
     console.log('close button, hiding modal');
 }
 
+
+function forgetGrids() {
+    let r = confirm("Really forget all your work?")
+    if (r){
+        localStorage.removeItem('items');
+        items.splice(0, items.length);
+        clearGrid();
+    } else{
+        alert('Keeping your work!')
+    }
+}
+
+function writeRecallText() {
+    document.querySelector('label[for="storenumber"]').innerHTML = `Saved Grid # 1 - ${(items.length)}`;
+}
+
+clearBtn.addEventListener('click', clearGrid);
+storeBtn.addEventListener('click', remember);
+window.addEventListener('resize', reportWindowSize);
+closebtn.addEventListener('click', hideModal);
+
 window.onclick = function(event) {
     if (event.target.classList[0] === "sketchGridDiv"){
         // console.log(event.target.classList)
@@ -106,15 +131,9 @@ window.onclick = function(event) {
     }
 }
 
-clearBtn.addEventListener('click', clearGrid);
-storeBtn.addEventListener('click', remember);
-window.addEventListener('resize', reportWindowSize);
-document.onload = alert("Use Space Bar for options and Help");
-closebtn.addEventListener('click', hideModal);
-
 window.addEventListener("keydown", event => {
     if (event.keyCode === 32 && modal.style.display !== "block") {
-        document.querySelector('label[for="storenumber"]').innerHTML = `Saved Grid # 1 - ${(items.length)}`;
+        
         modal.style.display = "block"
         console.log('popping UP!');
     } else if (event.keyCode === 32 && modal.style.display === "block")  {
@@ -122,5 +141,5 @@ window.addEventListener("keydown", event => {
         console.log('hiding modal');
     }
 })
-
+writeRecallText();
 makeGrid(10);

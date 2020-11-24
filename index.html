@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="gridStyles.css"></link>
 <body>
+
+        <div class='controls'>
+            <p>Click to turn 'brush' on/off!</p>
+            <button id="clearBtn">Clear Canvas</button>
+            <br>
+            
+            <br>
+            <button id="storeBtn">Store Canvas</button>
+            <br>
+            <br>
+            <p>Enter number and click 'New Size' to resize Canvas</p>
+            <label for="usernumber">New Size: 2-125</label>
+            <input type="text" id="usernumber" name="usernumber" value="10">
+            <button onclick="newGrid()">New Size</button>
+            <br>
+            <br>
+            <p>Recall a previously saved grid!</p>
+            <label for="storenumber">Saved Grid # 1 thru 0</label>
+            <input type="text" id="storenumber" name="storenumber" value="0">
+            <button onclick="recallGrid()">Recall!</button>
+            <br>
+            <br>
+            <button onclick="forgetGrids()">Forget All Grids (**Can NOT be undone!**)</button>
+        </div>
     <div class="bigContainer">
 
     </div>
