@@ -1,4 +1,5 @@
 .bigContainer {
+    justify-content: space-evenly;
     display: grid;
     height: 100%;
     width: 100%;

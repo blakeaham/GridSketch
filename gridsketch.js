@@ -1,12 +1,12 @@
 const bigGrid = document.querySelector(".bigContainer");
 const clearBtn = document.querySelector("#clearBtn");
 const storeBtn = document.querySelector("#storeBtn");
+const modal = document.querySelector(".modal");
+const closebtn = document.querySelector('.close');
 const items = JSON.parse(localStorage.getItem('items')) || [];
 let canvasheight = window.innerHeight - 20;
 let power = false;
 let num = 10;
-clearBtn.addEventListener('click', clearGrid);
-storeBtn.addEventListener('click', remember);
 
 function makeGrid(num) {
     // Clears Previous grid
@@ -38,18 +38,11 @@ function clearGrid() {
 function colorGrid(e) {
     // console.log(e.target)
     if(power) {
-    e.target.style.backgroundColor = "red";
-    }
-}
-document.onload = alert("Use Space Bar for options and Help");
-window.onclick = function(event) {
-    if (event.target.classList[0] === "sketchGridDiv"){
-    // console.log(event.target.classList)
-    power = !power;
+        e.target.style.backgroundColor = "red";
     }
 }
 
-makeGrid(10);
+
 
 function reportWindowSize() {
     canvasheight = window.innerHeight - 20;
@@ -59,43 +52,24 @@ function reportWindowSize() {
     console.log('window resized')
 }
 
-window.addEventListener('resize', reportWindowSize);
 
 
-const modal = document.querySelector(".modal");
-window.addEventListener("keydown", event => {
-    if (event.keyCode === 32 && modal.style.display !== "block") {
-        modal.style.display = "block"
-        console.log('popping UP!');
-    } else if (event.keyCode === 32 && modal.style.display === "block")  {
-        modal.style.display = "none";
-        console.log('hiding modal');
-    }
-})
 
-function myFunction() {
+function newGrid() {
     var x = document.getElementById("usernumber").value;
     num = x;
     makeGrid(num);
     power = false;
     modal.style.display = "none";
-  }
+}
 
-function myFunction2() {
+function recallGrid() {
     var y = document.getElementById("storenumber").value;
     recall(y);
     power = false;
     modal.style.display = "none";
 }
 
-// window.onclick = function(event) {
-//     if (event.target == modal) {
-//       modal.style.display = "none";
-//     } else {
-//       modal.style.display = "block";
-//     }
-//   }
-let savedGrids = [];
 
 function remember() {
     let tempMem = [];
@@ -108,14 +82,45 @@ function remember() {
 }
 
 function recall(n) {
-    let tempMem = items[n];
+    let tempMem = items[n-1];
     let dim = Math.sqrt(tempMem.length);
     let gridSpace = 0
     makeGrid(dim);
     let gp = bigGrid.querySelectorAll('div');
-
+    
     gp.forEach(i => {
         i.style.backgroundColor = tempMem[gridSpace];
         gridSpace ++;
     })
 }
+
+function hideModal() {
+    modal.style.display = "none";
+    console.log('close button, hiding modal');
+}
+
+window.onclick = function(event) {
+    if (event.target.classList[0] === "sketchGridDiv"){
+        // console.log(event.target.classList)
+        power = !power;
+    }
+}
+
+clearBtn.addEventListener('click', clearGrid);
+storeBtn.addEventListener('click', remember);
+window.addEventListener('resize', reportWindowSize);
+document.onload = alert("Use Space Bar for options and Help");
+closebtn.addEventListener('click', hideModal);
+
+window.addEventListener("keydown", event => {
+    if (event.keyCode === 32 && modal.style.display !== "block") {
+        document.querySelector('label[for="storenumber"]').innerHTML = `Saved Grid # 1 - ${(items.length)}`;
+        modal.style.display = "block"
+        console.log('popping UP!');
+    } else if (event.keyCode === 32 && modal.style.display === "block")  {
+        modal.style.display = "none";
+        console.log('hiding modal');
+    }
+})
+
+makeGrid(10);
