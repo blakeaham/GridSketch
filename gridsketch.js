@@ -4,8 +4,10 @@ const storeBtn = document.querySelector("#storeBtn");
 const modal = document.querySelector(".modal");
 const closebtn = document.querySelector('.close');
 const items = JSON.parse(localStorage.getItem('items')) || [];
-let canvasheight = window.innerHeight - 20;
+let canvasheight = window.innerHeight-20;
 let power = false;
+let pencil = document.getElementById('pencilCheck');
+let eraser = document.getElementById('eraserCheck');
 let num = 10;
 
 function makeGrid(num) {
@@ -15,6 +17,7 @@ function makeGrid(num) {
     //Creates new grid of given size
     for (i=0; i<num*num; i++){
         bigGrid.style.width = `${Math.floor(canvasheight/num)*num}px`;
+        bigGrid.style.height = `${Math.floor(canvasheight/num)*num}px`;
         bigGrid.style.gridTemplateColumns = `repeat(${num}, ${Math.floor(canvasheight/num)}px)`;
         bigGrid.style.gridTemplateRows = `repeat(${num}, ${Math.floor(canvasheight/num)}px)`;
         let newDiv = document.createElement("div");
@@ -40,8 +43,24 @@ function clearGrid() {
 
 function colorGrid(e) {
     // console.log(e.target)
-    if(power) {
-        e.target.style.backgroundColor = "red";
+    if(power && pencil.checked && !eraser.checked) {
+        if(e.target.style.backgroundColor === ''){
+            e.target.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
+        } else if (e.target.style.backgroundColor[16] === '9'){ 
+            e.target.style.backgroundColor = `rgba(0, 0, 0, 1.0)`;
+        } else if (e.target.style.backgroundColor[14] === '1'){
+            console.log('already black');
+        }
+        else {
+            let a = parseInt(e.target.style.backgroundColor[16]);
+            a++;
+            a++;
+            e.target.style.backgroundColor = `rgba(0, 0, 0, 0.${a})`;
+        }
+    } else if (power && !pencil.checked && !eraser.checked){
+        e.target.style.backgroundColor = 'red';
+    } else if (power && eraser.checked){
+        e.target.style.backgroundColor = '';
     }
 }
 
